@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/zhouyoujun888/gulu1/issues"
   },
-  "homepage": "https://github.com/zhouyoujun888/gulu1#readme"
+  "homepage": "https://github.com/zhouyoujun888/gulu1#readme",
+  "dependencies": {
+    "vue": "^3.2.47"
+  }
 }
