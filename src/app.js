@@ -20,6 +20,9 @@ new Vue({
 //单元测试
 import chai from 'chai'
 const expect = chai.expect
+//引入这个spies包， 用chai的use方法使用这个间谍
+import spies from 'chai-spies'
+chai.use(spies)
 //测试icon
 {
     const Constructor = Vue.extend(Button)
@@ -39,80 +42,77 @@ const expect = chai.expect
 //测试loading
 {
     const Constructor = Vue.extend(Button)
-    const button = new Constructor({
+    const vm = new Constructor({
         propsData: {
             icon: 'shezhi',
             loading: true
         }
     })
-    button.$mount()
-    let useElement = button.$el.querySelector('use')
+    vm.$mount()
+    let useElement = vm.$el.querySelector('use')
     let href = useElement.getAttribute('xlink:href')
     expect(href).to.eq('#i-loading')
 
-    button.$el.remove()
-    button.$destroy()
+    vm.$el.remove()
+    vm.$destroy()
 }
 //测试order
 {
     const div = document.createElement('div')
     document.body.appendChild(div)
     const Constructor = Vue.extend(Button)
-    const button = new Constructor({
+    const vm = new Constructor({
         propsData: {
             icon: 'shezhi',
         }
     })
-    button.$mount(div)
-    let svg = button.$el.querySelector('svg')
+    vm.$mount(div)
+    let svg = vm.$el.querySelector('svg')
     let {
         order
     } = window.getComputedStyle(svg)
     expect(order).to.eq('1')
 
-    button.$el.remove()
-    button.$destroy()
+    vm.$el.remove()
+    vm.$destroy()
 }
 
 {
     const div = document.createElement('div')
     document.body.appendChild(div)
     const Constructor = Vue.extend(Button)
-    const button = new Constructor({
+    const vm = new Constructor({
         propsData: {
             icon: 'shezhi',
             iconPosition: 'right'
         }
     })
-    button.$mount(div)
-    let svg = button.$el.querySelector('svg')
+    vm.$mount(div)
+    let svg = vm.$el.querySelector('svg')
     let {
         order
     } = window.getComputedStyle(svg)
     expect(order).to.eq('2')
 
-    button.$el.remove()
-    button.$destroy()
+    vm.$el.remove()
+    vm.$destroy()
 }
 //测试监听click事件
 {
-    //mock
+    //mock   npm i -D chai-spies
     const Constructor = Vue.extend(Button)
-    const gButton = new Constructor({
+    const vm = new Constructor({
         propsData: {
             icon: 'shezhi',
-
         }
     })
-    gButton.$mount()
-    gButton.$on('click', function () {
-        console.log(1)
-    })
-    let button = gButton.$el
+    vm.$mount()
+    let spy = chai.spy(function () {})
+
+    vm.$on('click2', spy)
+    //希望这个函数被执行
+    let button = vm.$el
     button.click()
+    expect(spy).to.have.been.called()
 
-
-
-    // button.$el.remove()
-    // button.$destroy()
 }
